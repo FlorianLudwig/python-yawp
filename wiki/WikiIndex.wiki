@@ -1,0 +1,8 @@
+#labels Featured
+# Wiki Start Page
+
+= Introduction =
+
+The wiki is not yet filled with anything. If you're wondering what this is all about just poke me.
+
+Right now I'm still checking out different googlecode hosting features.
