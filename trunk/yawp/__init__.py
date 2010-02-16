@@ -97,6 +97,29 @@ class Leaf(object):
     __metaclass__ = MetaLeaf
 
 
+def xhtml(content, w_kwargs):
+    tpl = TPL.load(content['_tpl'])
+    stream = TPL.load(content['_tpl']).generate(**content)
+    #stream = TPL.load(path).generate(**content)
+    return stream.render('xhtml')
+
+def rss(content, w_kwargs):
+    cherrypy.response.headers['Content-Type'] = 'text/rss'
+    content['rss_map'] = {'title': 'title',
+                          'entries': 'entries',
+                          'entry_title': 'title',
+                          'entry_desc': 'description',
+                          'entry_date': 'date',
+                          'entry_author': 'author'}
+    print '*' * 20 + '\n' + repr(w_kwargs)
+    if 'rss_map' in w_kwargs:
+        content['rss_map'].update(w_kwargs['rss_map'])
+    return _xhtml(content, {'tpl': 'rss.tpl'})
+
+
+FORMATS = {'xhtml': xhtml, 'rss': rss}
+
+
 def expose(*w_args, **w_kwargs):
     if len(w_args) == 1 and callable(w_args[0]):
         if not 'tpl' in w_kwargs:
