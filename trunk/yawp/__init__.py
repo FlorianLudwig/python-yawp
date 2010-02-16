@@ -112,7 +112,7 @@ def expose(*w_args, **w_kwargs):
                 if not 'allowed' in w_kwargs:
                     w_kwargs['allowed'] = ('xhtml',)
 
-                content = Response({'_request': cherrypy.request,
+                response = Response({'_request': cherrypy.request,
                        '_session': cherrypy.session if hasattr(cherrypy, 'session') else None,
                        '_kwargs': kwargs,
                        '_w_kwargs': w_kwargs,
@@ -121,14 +121,14 @@ def expose(*w_args, **w_kwargs):
                                              kwargs['format'] not in FORMATS else kwargs['format'],
                         '_tpl': _tpl
                        })
-                content = w_args[0](self._parent, content, *args, **kwargs)
+                response = w_args[0](self._parent, response, *args, **kwargs)
 
-                if isinstance(content, Content):
-                    if not content['_format'] in w_kwargs['allowed']:
+                if isinstance(response, Response):
+                    if not response['_format'] in w_kwargs['allowed']:
                         raise cherrypy.HTTPError(403)
-                    output = FORMATS[content['_format']](content, w_kwargs)
-                elif isinstance(content, basestring):
-                    output = content
+                    output = FORMATS[response['_format']](response, w_kwargs)
+                elif isinstance(response, basestring):
+                    output = response
                 else:
                     raise NotImplementedError
                 if 'elixir' in sys.modules:
