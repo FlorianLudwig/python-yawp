@@ -112,13 +112,11 @@ def expose(*w_args, **w_kwargs):
                 if not 'allowed' in w_kwargs:
                     w_kwargs['allowed'] = ('xhtml',)
 
-                this_show = Show(self)
                 content = Response({'_request': cherrypy.request,
                        '_session': cherrypy.session if hasattr(cherrypy, 'session') else None,
                        '_kwargs': kwargs,
                        '_w_kwargs': w_kwargs,
                        '_context': w_args[0],
-                       '_show': this_show,
                        '_format': 'xhtml' if not 'format' in kwargs or \
                                              kwargs['format'] not in FORMATS else kwargs['format'],
                         '_tpl': _tpl
