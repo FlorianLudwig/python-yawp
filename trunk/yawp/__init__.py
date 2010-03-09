@@ -16,6 +16,8 @@ DEFAULT_CONFIG = {'/': {
                         'tools.sessions.timeout': 60
                         }}
 
+default_response = {}
+
 
 def cherry_go():
     if hasattr(cherrypy.engine, "signal_handler"):
@@ -103,6 +105,7 @@ def xhtml(content, w_kwargs):
     #stream = TPL.load(path).generate(**content)
     return stream.render('xhtml')
 
+
 def rss(content, w_kwargs):
     cherrypy.response.headers['Content-Type'] = 'text/rss'
     content['rss_map'] = {'title': 'title',
@@ -144,6 +147,7 @@ def expose(*w_args, **w_kwargs):
                                              kwargs['format'] not in FORMATS else kwargs['format'],
                         '_tpl': _tpl
                        })
+                response.update(default_response)
                 response = w_args[0](self._parent, response, *args, **kwargs)
 
                 if isinstance(response, Response):
