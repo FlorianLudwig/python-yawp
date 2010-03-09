@@ -120,7 +120,16 @@ def rss(content, w_kwargs):
     return _xhtml(content, {'tpl': 'rss.tpl'})
 
 
-FORMATS = {'xhtml': xhtml, 'rss': rss}
+import simplejson
+def json(content, w_kwargs):
+    re = {}
+    for key, value in content.items():
+        if key[0] != '_' and not callable(value):
+            re[key] = value
+    return simplejson.dumps(re)
+
+
+FORMATS = {'xhtml': xhtml, 'rss': rss, 'json': json}
 
 
 def expose(*w_args, **w_kwargs):
@@ -152,7 +161,7 @@ def expose(*w_args, **w_kwargs):
 
                 if isinstance(response, Response):
                     if not response['_format'] in w_kwargs['allowed']:
-                        raise cherrypy.HTTPError(403)
+                        raise cherrypy.HTTPError(403, repr(w_kwargs))
                     output = FORMATS[response['_format']](response, w_kwargs)
                 elif isinstance(response, basestring):
                     output = response
