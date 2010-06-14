@@ -157,7 +157,10 @@ def expose(*w_args, **w_kwargs):
                         '_tpl': _tpl
                        })
                 response.update(default_response)
-                response = w_args[0](self._parent, response, *args, **kwargs)
+                re = w_args[0](self._parent, response, *args, **kwargs)
+
+                if not re is None:
+                    response = re
 
                 if isinstance(response, Response):
                     if not response['_format'] in w_kwargs['allowed']:
