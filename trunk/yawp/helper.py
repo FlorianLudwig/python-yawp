@@ -1,3 +1,4 @@
+import os
 import hashlib
 
 class StaticFileHandler(object):
@@ -9,9 +10,16 @@ class StaticFileHandler(object):
 
     def url(self, url):
         if url not in self.hashes:
-            data = open(self.path + '/' + url).read()
-            self.hashes[url] = hashlib.md5(data).hexdigest()[:5]
-        return self.base_url + url + '?v=' + self.hashes[url]
+            fname = self.path + '/' + url
+            if os.path.isdir(fname):
+                self.hashes[url] = None
+            else:
+                data = open(self.path + '/' + url).read()
+                self.hashes[url] = hashlib.md5(data).hexdigest()[:5]
+        if self.hashes[url]:
+            return self.base_url + url + '?v=' + self.hashes[url]
+        else:
+            return self.base_url + url
 
     def img_size(self, url):
         if url not in self.sizes:
