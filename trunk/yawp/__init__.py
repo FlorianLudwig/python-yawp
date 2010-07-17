@@ -18,6 +18,20 @@ DEFAULT_CONFIG = {'/': {
 
 default_response = {}
 
+class SessionKludge(object):
+    def __getitem__(self, name):
+        return cherrypy.session[name]
+    def __setitem__(self, name, val):
+        cherrypy.session[name] = val
+    def __contains__(self, key):
+        return key in cherrypy.session
+    def __delitem__(self, key):
+        cherrypy.session.__delitem__(key)
+    def setdefault(self, key, value):
+        return cherrypy.session.setdefault(key, value)
+    def get(self, key, default=None):
+        return cherrypy.session.get(key, default)
+session = SessionKludge()
 
 def cherry_go():
     if hasattr(cherrypy.engine, "signal_handler"):
