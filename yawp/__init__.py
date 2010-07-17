@@ -171,6 +171,7 @@ def expose(*w_args, **w_kwargs):
                         '_tpl': _tpl
                        })
                 response.update(default_response)
+                response.setdefault('_user_id', session.get('user_id')) # XXX
                 re = w_args[0](self._parent, response, *args, **kwargs)
 
                 if not re is None:
