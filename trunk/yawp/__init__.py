@@ -187,6 +187,7 @@ def expose(*w_args, **w_kwargs):
                     raise NotImplementedError
                 if 'elixir' in sys.modules:
                     sys.modules['elixir'].session.rollback()
+                    sys.modules['elixir'].session.close()
                 return output
         w = Wrap()
         w.exposed = True
