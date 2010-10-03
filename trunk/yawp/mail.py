@@ -28,7 +28,7 @@ def send_mail(toaddrs, subject, body):
     msg['Subject'] = subject
     # The actual mail send
     s = smtplib.SMTP(MAIL_RELAY)
-    s.sendmail(MAIL_FROM, toaddrs, msg.as_string(),
+    s.sendmail(MAIL_FROM, toaddrs, msg.as_string())
     s.quit()
 
 
