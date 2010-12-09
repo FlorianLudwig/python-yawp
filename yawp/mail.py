@@ -22,7 +22,7 @@ def send_mail(toaddrs, subject, body):
         subject = subject.encode('utf-8')
     if isinstance(toaddrs, basestring):
         toaddrs = [toaddrs]
-    msg = MIMEText(body, subject, 'utf-8')
+    msg = MIMEText(body, 'plain', 'utf-8')
     msg['From'] = MAIL_FROM
     msg['To'] = ','.join(toaddrs)
     msg['Subject'] = subject
