@@ -1,6 +1,20 @@
 # Copyright (c) 2010, Florian Ludwig <dino@phidev.org>
 # see LICENSE
 
+"""Helpers for code generation based on genshi [0]
+
+There are good code generator tools out there like cog [1].
+But if you already use genshi in your project this module might
+help you integrating code generation into your build and
+deploy process using familar templating syntax.
+
+If you're not using genshi you probably want to look at cog
+and similar tools.
+
+[0] http://genshi.edgewall.org/
+[1] http://nedbatchelder.com/code/cog/
+"""
+
 import os
 import StringIO
 import copy
